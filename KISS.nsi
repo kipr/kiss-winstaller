@@ -27,7 +27,7 @@
 !define LIBKOVAN_DOCS_DIR "C:\Users\Nafis\Documents\Development\libkovan\doc"
 !define LINK_DOCS_DIR "C:\Users\Nafis\Documents\Development\link-docs\KIPR Link C Standard Library"
 !define XTION_DRIVER_DIR "C:\Users\Nafis\Documents\Development\XtionDriver"
-!define INSTALLER_ICON "${KISS_DIR}\rc\logos\windows_icon.ico"
+!define INSTALLER_ICON "windows_icon.ico"
 
 ; Name of the installer
 Name "${APP_NAME_AND_VERSION}"
