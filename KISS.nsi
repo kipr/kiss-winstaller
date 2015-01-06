@@ -20,6 +20,9 @@
 !define INSTALLER_FILENAME "KISS-Platform-${VERSION}"
 !define APP_NAME_AND_VERSION "${APP_NAME} ${VERSION}"
 
+; Ensure that directories have been defined
+!ifndef KISS_DIR
+
 ; Paths to files to build into the installer
 !define KISS_DIR "C:\Users\Nafis\Documents\Development\kiss"
 !define CS2_DIR "C:\Users\Nafis\Documents\Development\cs2"
@@ -141,13 +144,13 @@ SectionEnd
 
 Section "Visual C++ Redistributable 2012" VCRedist2012
 	SetOutPath $INSTDIR
-    File "${KISS_DIR}\deploy\vcredist_x86_2012.exe"
+    File "vcredist_x86_2012.exe"
     ExecWait "$INSTDIR\vcredist_x86_2012.exe"
 SectionEnd
 
 Section "Visual C++ Redistributable 2010" VCRedist2010
 	SetOutPath $INSTDIR
-    File "${KISS_DIR}\deploy\vcredist_x86_2010.exe"
+    File "vcredist_x86_2010.exe"
     ExecWait "$INSTDIR\vcredist_x86_2010.exe"
 SectionEnd
 
