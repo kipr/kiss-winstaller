@@ -21,16 +21,24 @@
 !define APP_NAME_AND_VERSION "${APP_NAME} ${VERSION}"
 
 ; Ensure that directories have been defined
-!ifndef KISS_DIR
-
-; Paths to files to build into the installer
-!define KISS_DIR "C:\Users\Nafis\Documents\Development\kiss"
-!define CS2_DIR "C:\Users\Nafis\Documents\Development\cs2"
-!define MINGW_DIR "C:\Users\Nafis\Documents\Development\MinGW"
-!define LIBKOVAN_DOCS_DIR "C:\Users\Nafis\Documents\Development\libkovan\doc"
-!define LINK_DOCS_DIR "C:\Users\Nafis\Documents\Development\link-docs\KIPR Link C Standard Library"
-!define XTION_DRIVER_DIR "C:\Users\Nafis\Documents\Development\XtionDriver"
-!define INSTALLER_ICON "windows_icon.ico"
+!ifndef DEPLOY_DIR
+	!error "DEPLOY_DIR must be defined!"
+!endif
+!ifndef MINGW_DIR
+	!error "MINGW_DIR must be defined!"
+!endif
+!ifndef LIBKOVAN_DOCS_DIR
+	!error "LIBKOVAN_DOCS_DIR must be defined!"
+!endif
+!ifndef LINK_DOCS_DIR
+	!error "LINK_DOCS_DIR must be defined!"
+!endif
+!ifndef XTION_DRIVER_DIR
+	!error "XTION_DRIVER_DIR must be defined!"
+!endif
+!ifndef OUT_DIR
+	!error "OUT_DIR must be defined!"
+!endif
 
 ; Name of the installer
 Name "${APP_NAME_AND_VERSION}"
@@ -39,10 +47,10 @@ Name "${APP_NAME_AND_VERSION}"
 InstallDir "$PROGRAMFILES\${APP_NAME_AND_VERSION}"
 
 ; Path to the installer itself
-OutFile "${KISS_DIR}\releases\${INSTALLER_FILENAME}.exe"
+OutFile "${OUT_DIR}\${INSTALLER_FILENAME}.exe"
 
 ; Modern interface settings
-!define MUI_ICON ${INSTALLER_ICON}
+!define MUI_ICON "windows_icon.ico"
 !define MUI_ABORTWARNING
 !define MUI_FINISHPAGE_RUN "$INSTDIR\KISS\KISS.exe"
 !define MUI_FINISHPAGE_RUN_TEXT "Run KISS IDE now"
@@ -60,15 +68,15 @@ OutFile "${KISS_DIR}\releases\${INSTALLER_FILENAME}.exe"
 !insertmacro MUI_LANGUAGE "English"
 !insertmacro MUI_RESERVEFILE_LANGDLL
 
-Section "KISS IDE" KISSIDE
+Section "KISS Platform" KISSPlatform
 	; Set Section properties
 	SetOverwrite on  ; overwrite existing files
 	SectionIn RO     ; cannot be unchecked  
   	
-	; Set KISS Files
+	; Set KISS Platform Files
 	SetOutPath "$INSTDIR\KISS\"
-	File /r "${KISS_DIR}\deploy\*.*"
-	File ${INSTALLER_ICON}
+	File /r "${DEPLOY_DIR}\*.*"
+	File "windows_icon.ico"
 	!define KISS_ICON "$INSTDIR\KISS\windows_icon.ico"
 
 	; Set up start menu entry
@@ -77,16 +85,6 @@ Section "KISS IDE" KISSIDE
 
 	; Set up desktop shortcut
 	CreateShortCut "$DESKTOP\KISS IDE ${VERSION}.lnk" "$INSTDIR\KISS\kiss.exe" "" ${KISS_ICON} 0
-SectionEnd
-
-Section "cs2 Target" cs2Target
-	; Set Section properties
-	SetOverwrite on  ; overwrite existing files
-	SectionIn RO     ; cannot be unchecked
-  	
-	; Set cs2 Files
-	SetOutPath "$INSTDIR\kiss\"
-	File /r "${CS2_DIR}\deploy\*.*"
 SectionEnd
 
 Section "MinGW" MinGW
@@ -114,7 +112,7 @@ Section "Link Documentation" link_doc
   	
 	; Set Link Documentation Files	
 	SetOutPath "$INSTDIR\KISS\docs\KIPR Link C Standard Library\"
-	File /r "${LINK_DOCS_DIR}\*.*"
+	File /r "${LINK_DOCS_DIR}\KIPR Link C Standard Library\*.*"
 SectionEnd
 
 Section "Link Driver" linkDriver
@@ -165,8 +163,7 @@ SectionEnd
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
 !insertmacro MUI_DESCRIPTION_TEXT ${VCRedist2012} "Visual C++ Redistributable for Visual Studio 2012 Update 3"
 !insertmacro MUI_DESCRIPTION_TEXT ${VCRedist2010} "Visual C++ Redistributable for Visual Studio 2010"
-!insertmacro MUI_DESCRIPTION_TEXT ${KISSIDE} "KIPR's Instructional Software System IDE"
-!insertmacro MUI_DESCRIPTION_TEXT ${CS2Target} "A 2-in-1 target for KISS IDE used to run programs locally"
+!insertmacro MUI_DESCRIPTION_TEXT ${KISSPlatform} "KIPR's Instructional Software System IDE and target"
 !insertmacro MUI_DESCRIPTION_TEXT ${MinGW} "Minimalist GNU for Windows"
 !insertmacro MUI_DESCRIPTION_TEXT ${link_doc} "Documentation for the KIPR Link"
 !insertmacro MUI_DESCRIPTION_TEXT ${libkovan_doc} "Documentation for the libkovan standard library"
