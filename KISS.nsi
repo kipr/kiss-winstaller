@@ -140,6 +140,12 @@ Section "Xtion Driver" xtionDriver
 	${EndIf}
 SectionEnd
 
+Section "Visual C++ Redistributable 2013" VCRedist2013
+	SetOutPath $INSTDIR
+    File "vcredist_x86.exe"
+    ExecWait "$INSTDIR\vcredist_x86.exe"
+SectionEnd
+
 Section "Visual C++ Redistributable 2012" VCRedist2012
 	SetOutPath $INSTDIR
     File "vcredist_x86_2012.exe"
@@ -161,6 +167,7 @@ SectionEnd
 
 ; Modern install component descriptions
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+!insertmacro MUI_DESCRIPTION_TEXT ${VCRedist2013} "Visual C++ Redistributable for Visual Studio 2013"
 !insertmacro MUI_DESCRIPTION_TEXT ${VCRedist2012} "Visual C++ Redistributable for Visual Studio 2012 Update 3"
 !insertmacro MUI_DESCRIPTION_TEXT ${VCRedist2010} "Visual C++ Redistributable for Visual Studio 2010"
 !insertmacro MUI_DESCRIPTION_TEXT ${KISSPlatform} "KIPR's Instructional Software System IDE and target"
